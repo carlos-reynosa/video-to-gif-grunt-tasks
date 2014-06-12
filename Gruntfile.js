@@ -1,10 +1,27 @@
 /**
- *  Grunt task dependencies can be installed on linux via the following command:
+ * This grunt file will provide tasks to automate the use of linux commands that will convert a video file
+ * into a gif.
  *
- *          'sudo apt-get install imagemagick mplayer gtk-recordmydesktop'
+ *  Grunt task dependencies can be installed on linux via the following command:
+ *          sudo apt-get install imagemagick mplayer gtk-recordmydesktop
+ *
+ *              -imagemagick: Used for converting images
+ *              -mplayer: used for converting a video to image files
+ *              -gtk-recordmydesktop: used for recording screen activity
+ *
+ *  Shell commands used:
+ *
+ *      --Convert video file to a list of images
+ *        -   mplayer -ao null <video file directory> -vo jpeg:outdir= <output file directory>
+ *
+ *      -- Convert the list of files into a gif
+ *          - convert /listOfImagesDirectory/* gifOutputFile.gif
+ *
+ *      -- Optimize the gif file
+ *          - convert gifToOptimize.gif -fuzz 10% -layers Optimize optimizedGif.gif
  *
  */
-module.exports = function(grunt){
+module.exports = function (grunt) {
 
     //Setup config for tasks
     grunt.initConfig({
@@ -12,11 +29,59 @@ module.exports = function(grunt){
         pkg: grunt.file.readJSON('package.json'),
 
 
-        shell:{
+        shell: {
 
 
-            server:{
-                command: 'echo test'
+            videoToJpeg: {
+                command: function (videoDirectory, jpegFileDirectory) {
+                    if (videoDirectory && jpegFileDirectory) {
+
+                        console.log('Converting video file  "'+videoDirectory+'" to image files in directory "' +
+                            jpegFileDirectory+'"');
+
+
+                        return  'mplayer -ao null ' + videoDirectory + ' -vo jpeg:outdir=' + jpegFileDirectory;
+                    }
+                    else {
+                        return 'echo "ERROR: Missing video directory or output directory."';
+                    }
+                },
+                options:{
+                    stdout:false
+                }
+
+            },
+
+            jpegToGif:{
+               command:function(imagesDirectory,gifOutPutFileName){
+
+
+                   if(imagesDirectory && gifOutPutFileName){
+
+                       console.log('Converting images in directory "'+imagesDirectory+'" to gif file named "'+
+                           gifOutPutFileName+'".');
+
+                       return 'convert '+imagesDirectory+' '+gifOutPutFileName;
+
+                   }
+                   else{
+                      return 'echo "ERROR: Missing image directory or output file name parameters."';
+                   }
+               }
+            },
+            optimizeGif:{
+
+                command:function(unOptimizedFileDirectory,optimizedFileDirectory){
+
+                    if(unOptimizedFileDirectory && optimizedFileDirectory){
+                        console.log('Optimizing gif "'+unOptimizedFileDirectory+'" to optimized file "'+optimizedFileDirectory+'".');
+
+                        return 'convert '+unOptimizedFileDirectory+' -fuzz 10% -layers Optimize '+optimizedFileDirectory;
+                    }else{
+
+                        return 'echo "ERROR: Missing file directory for un optimized files or output directory for optimized files."'
+                    }
+                }
 
             }
 
@@ -30,8 +95,7 @@ module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-shell');
 
 
-    //Start the php file server
-    grunt.registerTask('default',['shell']);
+    grunt.registerTask('default', ['shell']);
 
 
 };
