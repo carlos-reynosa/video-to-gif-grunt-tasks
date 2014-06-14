@@ -36,8 +36,8 @@ module.exports = function (grunt) {
                 command: function (videoDirectory, jpegFileDirectory) {
                     if (videoDirectory && jpegFileDirectory) {
 
-                        console.log('Converting video file  "'+videoDirectory+'" to image files in directory "' +
-                            jpegFileDirectory+'"');
+                        console.log('Converting video file '+videoDirectory+' to image files in directory ' +
+                            jpegFileDirectory+'');
 
 
                         return  'mplayer -ao null ' + videoDirectory + ' -vo jpeg:outdir=' + jpegFileDirectory;
@@ -58,8 +58,8 @@ module.exports = function (grunt) {
 
                    if(imagesDirectory && gifOutPutFileName){
 
-                       console.log('Converting images in directory "'+imagesDirectory+'" to gif file named "'+
-                           gifOutPutFileName+'".');
+                       console.log('Converting images in directory '+imagesDirectory+' to gif file named '+
+                           gifOutPutFileName+'.');
 
                        return 'convert '+imagesDirectory+' '+gifOutPutFileName;
 
@@ -74,7 +74,8 @@ module.exports = function (grunt) {
                 command:function(unOptimizedFileDirectory,optimizedFileDirectory){
 
                     if(unOptimizedFileDirectory && optimizedFileDirectory){
-                        console.log('Optimizing gif "'+unOptimizedFileDirectory+'" to optimized file "'+optimizedFileDirectory+'".');
+
+                        console.log('Optimizing gif '+unOptimizedFileDirectory+' to optimized file '+optimizedFileDirectory+'.');
 
                         return 'convert '+unOptimizedFileDirectory+' -fuzz 10% -layers Optimize '+optimizedFileDirectory;
                     }else{
@@ -94,8 +95,22 @@ module.exports = function (grunt) {
     //Runs shell commands within grunt
     grunt.loadNpmTasks('grunt-shell');
 
+    grunt.registerTask('video-to-images', 'Task to convert a video to a list of images.',function(videoDirectory, imagesDirectory){
 
-    grunt.registerTask('default', ['shell']);
+       grunt.task.run('shell:videoToJpeg:"'+videoDirectory+'":"'+imagesDirectory+'"');
 
+    });
+
+     grunt.registerTask('images-to-gif', 'Converts a list of images into a gif.',function(imagesDirectory,gifDirectory){
+
+       grunt.task.run('shell:jpegToGif:"'+imagesDirectory+'":"'+gifDirectory+'"');
+
+    });
+
+    grunt.registerTask('optimize-gif', 'Optimizes a gif image.',function(unOptimizedGifDirectory,optimizedGifDirectory){
+
+       grunt.task.run('shell:optimizeGif:"'+unOptimizedGifDirectory+'":"'+optimizedGifDirectory+'"');
+
+    });
 
 };
