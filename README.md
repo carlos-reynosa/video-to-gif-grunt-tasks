@@ -93,7 +93,7 @@ Lets assume we have the following directories:
 
     - "./images/"
 
-To convert the video file video.ogg, use the following command:
+To convert the video file  ./video/video.ogg into a list of images within ./images/, use the following command:
 
 `grunt video-to-images:./video/video.ogg:./images/`
 
