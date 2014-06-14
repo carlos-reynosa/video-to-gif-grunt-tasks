@@ -158,3 +158,7 @@ To optimize a gif file by using the above files, use the following command:
 `grunt optimize-gif:./gifFile/video.gif:./optimizedGif/video-optimized.gif`
 
 The new optimized gif file should be located within **./optizedGif/video-optimized.gif**.
+
+#License
+
+MIT
