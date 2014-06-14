@@ -71,7 +71,7 @@ Use the gtk-recordmydesktop GUI tool to record a video of your desktop and save 
 be used to be converted into a list of images and then a gif.
 
 
-### 2. Convert video to list of images
+### 2. Convert video to list of images.
 
 Use the video-to-images Grunt task to convert a video into a list of images. The task accepts two parameters, a path
 to a video file and a path pointing to a directory where the list of images should be placed. The following is the syntax
@@ -79,17 +79,18 @@ for the video-to-images task:
 
 `grunt video-to-images:<path to video>:<path to output directory>`
 
-#### Example task usage
 
-* Lets assume that we have a video file named video.ogg. To convert the video file into a list of images
+#### Example Task Usage
+
+Lets assume that we have a video file named video.ogg. To convert the video file into a list of images
 use the video-to-images Grunt task. In order to use the task we need two things, a path to the video and an output path.
 
 Lets assume we have the following directories:
 
-* Path To Video
+* Path to Video
     - "./video/video.ogg"
 
-* Path To Output Directory
+* Path to Output Directory
 
     - "./images/"
 
@@ -99,6 +100,39 @@ To convert the video file  ./video/video.ogg into a list of images within ./imag
 
 A list of images should be generated within the directory ./images. Those images can then be used to generate
 a gif file.
+
+### 3. Convert list of images into gif.
+
+Use the images-to-gif Grunt task to convert a list of images into a gif file. The task accepts two parameters, a path to
+a directory containing a list of images and path to an output file. The following  is the syntax for the images-to-gif
+task:
+
+`grunt images-to-gif:<path to list of images>:<path to output gif file>`
+
+
+#### Example Task Usage
+
+Lets assume we have a directory ./images containing a list of images generated from a video file. To convert the list of
+images into a gif file use the images-to-gif grunt task. In order to use the task we need two things, a path that points
+to a list of images and a path to the produced gif file.
+
+Lets assume we have the following path where a list of images are located and a known path containing the name of the
+gif file that should be generated:
+
+* Path to List of Images
+
+    - "./images/*"
+* Path to Output Gif File
+
+    - "./gifFile/video.gif"
+
+To convert the list of images ./images/* into the gif file ./gifFile/video.gif, use the following command:
+
+`grunt images-to-gif:./images/*:./gifFile/video.gif`
+
+The directory ./gifFile/ should now contain a gif file representing the list of images in ./images/*.
+
+
 
 
 
